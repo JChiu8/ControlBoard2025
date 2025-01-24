@@ -23,13 +23,13 @@ public class Motor extends SubsystemBase {
     double targetPosition;
     
     public Motor() {
-        cim = new SparkMax(0, MotorType.kBrushless);
-        config.inverted(true).idleMode(IdleMode.kBrake);
+        cim = new SparkMax(1, MotorType.kBrushed);
+        config.inverted(false).idleMode(IdleMode.kBrake);
         pid = new ProfiledPIDController(0, 0, 0, new Constraints(0.5, 1));
         encoder = new DutyCycleEncoder(0);
     }
 
-    public double getPosition() {
+    public double getEncoderPosition() {
         return encoder.get();
     }
 
@@ -46,7 +46,17 @@ public class Motor extends SubsystemBase {
         cim.setVoltage(pid.calculate(targetPosition));
     }
 
+    public boolean getIsConnected() {
+        return encoder.isConnected();
+    }
+
+    public double getEncoderFrequency() {
+        return encoder.getFrequency();
+    }
+
     public void periodic() {
-        SmartDashboard.putNumber("Position", getPosition());
+        SmartDashboard.putNumber("Position", getEncoderPosition());
+        SmartDashboard.putNumber("Frequency", getEncoderFrequency());
+        SmartDashboard.putBoolean("Connected", getIsConnected());
     }
 }

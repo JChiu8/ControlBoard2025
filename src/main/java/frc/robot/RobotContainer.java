@@ -52,6 +52,10 @@ public class RobotContainer {
     motor.setDefaultCommand(Commands.run(() -> motor.setVolts(0), motor));
     m_driverController.rightBumper().whileTrue(Commands.run(() -> motor.setVolts(1), motor));
     m_driverController.leftBumper().whileTrue(Commands.run(() -> motor.setVolts(-1), motor));
+    m_driverController.a().whileTrue(Commands.run(() -> motor.usePIDOutput(), motor));
+    m_driverController.x().whileTrue(Commands.runOnce(() -> motor.setTargetPosition(90.0), motor));
+    m_driverController.y().whileTrue(Commands.runOnce(() -> motor.setTargetPosition(0.0), motor));
+    m_driverController.b().whileTrue(Commands.runOnce(() -> motor.setTargetPosition(45.0), motor));
   }
 
   /**
